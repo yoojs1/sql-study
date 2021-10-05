@@ -62,3 +62,39 @@ FROM DUAL;
 SELECT TO_NUMBER('0123')+100
     
 FROM DUAL;
+
+--널값 관련 함수 (null)
+--NVL( 값 , 0 ) 만약 값이 널이면 0으로 변환
+
+SELECT
+    last_name, NVL(manager_id, 0 )매니저
+FROM employees WHERE last_name = 'King';
+
+--NVL2( 값 , 첫번째, 두번째 ) 만약 값이 널값이 아니면 첫번째, 아니면 두번째
+SELECT
+    last_name, NVL2(manager_id, 1, 0 )매니저
+FROM employees WHERE last_name = 'King';
+
+--예제1, 2
+
+SELECT 
+    last_name 이름, salary 월급, NVL(commission_pct,0) 커미션, 
+    salary*12 + salary*12*NVL(commission_pct,0) 연봉
+FROM employees ORDER BY 연봉 DESC;
+
+SELECT last_name 이름, salary 월급, NVL(commission_pct,0) 커미션, 
+    salary*12 + salary*12*NVL(commission_pct,0) 연봉,
+    NVL2(commission_pct, '월급 +보너스', '월급만') 연봉계산방법
+    
+FROM employees ORDER BY 연봉 DESC;
+
+--CASE 함수 비교가능
+SELECT last_name, job_id, salary,
+   CASE WHEN salary<5000 THEN '하'
+        WHEN salary<10000 THEN '중'
+        WHEN salary<20000 THEN '상' 
+        ELSE                   '최고'
+   END "급여수준"
+
+FROM employees;
+
